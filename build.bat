@@ -31,7 +31,7 @@ setlocal
 set INCLUDE_PATH=include
 set SDL_LIB=lib\SDL3.lib
 
-cl src\main.cpp src\game.cpp /std:c++17 /EHsc /I"%INCLUDE_PATH%" /Fe:"bin\main.exe" /Fo:"bin\\" /link "%SDL_LIB%" /subsystem:console 
+cl src\*.cpp /std:c++17 /EHsc /I"%INCLUDE_PATH%" /Fe:"bin\SneC++.exe" /Fo:"bin\\" /link "%SDL_LIB%" /subsystem:console 
 if errorlevel 1 (
     echo Build failed.
     exit /b 1
