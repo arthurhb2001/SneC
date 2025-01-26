@@ -5,6 +5,7 @@
 #include <SDL3/SDL.h>
 #include <vector>
 #include <random>
+#include "Score.h"
 
 enum class Direction { UP, DOWN, LEFT, RIGHT };
 
@@ -36,6 +37,8 @@ private:
     bool m_gameOver{ false };
     std::random_device m_rd;
     std::mt19937 m_gen;
+    Score m_scoreManager;
+    int m_currentScore{ 0 };
 
     void SpawnApple();
     void UpdateSnake();
