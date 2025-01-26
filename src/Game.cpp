@@ -3,7 +3,7 @@
 #include <random>
 #include <algorithm>
  
-Game::Game() : m_gen(m_rd()) {}
+Game::Game() : m_gen(m_rd()), m_currentScore{0} {}
 
 Game::~Game() 
 { 
@@ -12,42 +12,36 @@ Game::~Game()
 
 bool Game::Initialize()
 {
-    bool success{ true };
-    
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         SDL_Log("SDL could not initialize! SDL error: %s\n", SDL_GetError());
-        success = false;
+        return false;
     }
-    else
-    {
-        m_window = SDL_CreateWindow("SneC++", kScreenWidth, kScreenHeight, 0);
-        if (!m_window)
-        {
-            SDL_Log("Window could not be created! SDL error: %s\n", SDL_GetError());
-            success = false;
-        }
-        else
-        {
-            m_renderer = SDL_CreateRenderer(m_window, nullptr);
-            if (!m_renderer)
-            {
-                SDL_Log("Renderer could not be created! SDL error: %s\n", SDL_GetError());
-                success = false;
-            }
 
-            int startX = (kScreenWidth / kGridSize) / 2;
-            int startY = (kScreenHeight / kGridSize) / 2;
-            
-            for (int i = 0; i < kInitialSnakeLength; ++i)
-            {
-                m_snake.push_back({ startX - i, startY });
-            }
-            
-            SpawnApple();
-        }
+    m_window = SDL_CreateWindow("SneC++", kScreenWidth, kScreenHeight, 0);
+    if (!m_window)
+    {
+        SDL_Log("Window could not be created! SDL error: %s\n", SDL_GetError());
+        return false;
     }
-    return success;
+
+    m_renderer = SDL_CreateRenderer(m_window, nullptr);
+    if (!m_renderer)
+    {
+        SDL_Log("Renderer could not be created! SDL error: %s\n", SDL_GetError());
+        return false;
+    }
+
+    int startX = (kScreenWidth / kGridSize) / 2;
+    int startY = (kScreenHeight / kGridSize) / 2;
+    
+    for (int i = 0; i < kInitialSnakeLength; ++i)
+    {
+        m_snake.push_back({ startX - i, startY });
+    }
+    
+    SpawnApple();
+    return true;
 }
 
 void Game::SpawnApple()
@@ -95,6 +89,7 @@ void Game::UpdateSnake()
     if (newHead == m_apple)
     {
         SpawnApple();
+        m_currentScore += 100;
     }
     else
     {
@@ -187,5 +182,28 @@ void Game::Run()
         }
 
         Render();
+    }
+
+    std::cout << "\nGame Over!\n";
+    std::cout << "Final Score: " << m_currentScore << "\n\n";
+    
+    const auto& highScores = m_scoreManager.GetHighScores();
+    if (m_currentScore > 0) {
+        if (!highScores.empty() && m_currentScore > highScores[0]) {
+            std::cout << "********************************\n";
+            std::cout << "* CONGRATULATIONS! TOP SCORE!! *\n";
+            std::cout << "********************************\n\n";
+        }
+        else if (m_scoreManager.IsHighScore(m_currentScore)) {
+            std::cout << "NEW HIGH SCORE!\n\n";
+        }
+        m_scoreManager.AddScore(m_currentScore);
+    }
+    
+    std::cout << "Top 10 High Scores:\n";
+    for (size_t i = 0; i < highScores.size(); ++i) {
+        if (highScores[i] > 0) {
+            std::cout << (i + 1) << ". " << highScores[i] << "\n";
+        }
     }
 }
