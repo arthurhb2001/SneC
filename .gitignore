@@ -1,4 +1,4 @@
 bin/
-include/
 lib/
+include/SDL3
 .vscode/

@@ -50,7 +50,6 @@ public:
     ~Game();
 
     bool Initialize();
-    bool LoadMedia();
     void Close();
     void Run();
 };
