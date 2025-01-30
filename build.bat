@@ -1,9 +1,9 @@
 @echo off
 
-if not exist "bin" mkdir bin
-if not exist "lib" mkdir lib
+if not exist ".\x64\Debug" mkdir bin
+if not exist "SneC++\lib" mkdir lib
 
-if not exist "bin\SDL3.dll" (
+if not exist "x64\Debug\SDL3.dll" (
     echo SDL files not found. Downloading...
     powershell -NoProfile -ExecutionPolicy Bypass -File download-sdl.ps1
     if errorlevel 1 (
@@ -11,11 +11,11 @@ if not exist "bin\SDL3.dll" (
         exit /b 1
     )
 ) else (
-    echo SDL files already present in bin folder, skipping download.
+    echo SDL files already present in x64\Debug folder, skipping download.
 )
 
-if not exist "bin\SDL3.dll" (
-    echo Error: SDL3.dll not found in bin directory.
+if not exist "x64\Debug\SDL3.dll" (
+    echo Error: SDL3.dll not found in x64\Debug directory.
     exit /b 1
 )
 
@@ -28,10 +28,10 @@ if not exist "%VS_DEV_CMD%" (
 call "%VS_DEV_CMD%"
 
 setlocal
-set INCLUDE_PATH=include
-set SDL_LIB=lib\SDL3.lib
+set INCLUDE_PATH=SneC++\include
+set SDL_LIB=SneC++\lib\SDL3.lib
 
-cl src\*.cpp /std:c++17 /EHsc /I"%INCLUDE_PATH%" /Fe:"bin\SneC++.exe" /Fo:"bin\\" /link "%SDL_LIB%" /subsystem:console 
+cl SneC++\src\*.cpp /std:c++17 /EHsc /I"%INCLUDE_PATH%" /Fe:"x64\Debug\SneC++.exe" /Fo:"x64\Debug\\" /link "%SDL_LIB%" /subsystem:console 
 if errorlevel 1 (
     echo Build failed.
     exit /b 1

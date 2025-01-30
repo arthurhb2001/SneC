@@ -1,4 +1,5 @@
-bin/
-lib/
-include/SDL3
-.vscode/
+x64/*
+SneC++/x64
+SneC++/lib
+SneC++/include/SDL3
+.vs/
