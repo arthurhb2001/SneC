@@ -11,7 +11,6 @@ Invoke-WebRequest -Uri $asset.browser_download_url -OutFile 'sdl.zip'
 Expand-Archive -Path 'sdl.zip' -DestinationPath 'sdl_temp' -Force
 $sdlFolder = Get-ChildItem -Path 'sdl_temp' -Directory | Select-Object -First 1
 
-if (!(Test-Path 'include')) { mkdir 'include' }
 Copy-Item -Path "sdl_temp\$($sdlFolder.Name)\include\*" -Destination 'SneC++\include' -Recurse -Force
 Copy-Item -Path "sdl_temp\$($sdlFolder.Name)\lib\x64\SDL3.dll" -Destination 'x64\Debug' -Force
 Copy-Item -Path "sdl_temp\$($sdlFolder.Name)\lib\x64\SDL3.lib" -Destination 'SneC++\lib' -Force
