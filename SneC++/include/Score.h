@@ -4,7 +4,8 @@
 #include <fstream>
 #include <algorithm>
 
-class Score {
+class Score
+{
 private:
     static constexpr int kMaxHighScores = 10;
     static constexpr const char* kHighScoreFile = "bin/highscores.txt";

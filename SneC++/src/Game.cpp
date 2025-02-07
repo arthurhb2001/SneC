@@ -188,21 +188,26 @@ void Game::Run()
     std::cout << "Final Score: " << m_currentScore << "\n\n";
     
     const auto& highScores = m_scoreManager.GetHighScores();
-    if (m_currentScore > 0) {
-        if (!highScores.empty() && m_currentScore > highScores[0]) {
+    if (m_currentScore > 0) 
+    {
+        if (!highScores.empty() && m_currentScore > highScores[0]) 
+        {
             std::cout << "********************************\n";
             std::cout << "* CONGRATULATIONS! TOP SCORE!! *\n";
             std::cout << "********************************\n\n";
         }
-        else if (m_scoreManager.IsHighScore(m_currentScore)) {
+        else if (m_scoreManager.IsHighScore(m_currentScore)) 
+        {
             std::cout << "NEW HIGH SCORE!\n\n";
         }
         m_scoreManager.AddScore(m_currentScore);
     }
     
     std::cout << "Top 10 High Scores:\n";
-    for (size_t i = 0; i < highScores.size(); ++i) {
-        if (highScores[i] > 0) {
+    for (size_t i = 0; i < highScores.size(); ++i) 
+    {
+        if (highScores[i] > 0) 
+        {
             std::cout << (i + 1) << ". " << highScores[i] << "\n";
         }
     }
